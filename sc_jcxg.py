@@ -73,8 +73,6 @@ class Task(object):
                 return
             self.run_task()
 
-        logger.info(os.linesep)
-
     def login(self):
         global sess
 
@@ -174,16 +172,17 @@ class Task(object):
         resp = sess.get(url, proxies=proxies)
         dict_content = resp.json()
 
-        trade_no = None
+        unpaid_trade_no = None
         if orders := dict_content.get('data'):
             for item in orders:
                 status = item.get('status')
                 trade_no = item.get('trade_no')
 
                 if status == 0:  # 0待付款 1开通中 2已取消 3完成
+                    unpaid_trade_no = trade_no
                     break
 
-        return trade_no
+        return unpaid_trade_no
 
     # def get_order_status(self, target_trade_no):
     #     url = f'https://{self.domain}/api/v1/user/order/fetch'
@@ -355,7 +354,8 @@ class ShengFeng(Task):
         if self.need_order is False:
             self.check_subscribe()
 
-        self.order()
+        if self.need_order is True:
+            self.order()
 
 
 def main():
