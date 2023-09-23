@@ -5,7 +5,7 @@
 cron: */30 * * * *
 new Env('机场续购');
 
-脚本同目录下添加jcxg.json文件配置机场信息
+脚本同目录下添加sc_jcxg.json文件配置机场信息
 如果需要代理则设置环境变量scripts_http_proxy，例如 scripts_http_proxy = 127.0.0.1:1098
 """
 
@@ -17,12 +17,12 @@ from datetime import datetime
 import requests
 from requests.utils import dict_from_cookiejar, cookiejar_from_dict
 
-from log import logger
+from py_dep.log import logger
 
 requests.packages.urllib3.disable_warnings()
 
 ######################################################
-configs_file = 'jcxg.json'
+configs_file = 'sc_jcxg.json'
 cache = {}
 new_cache = {}
 
