@@ -17,7 +17,7 @@ from datetime import datetime
 import requests
 from requests.utils import dict_from_cookiejar, cookiejar_from_dict
 
-from log import logger
+from tools.log import logger
 
 requests.packages.urllib3.disable_warnings()
 
