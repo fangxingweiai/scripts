@@ -351,7 +351,7 @@ class ShengFeng(Task):
             self.need_order = True
 
     def run_task(self):
-        if self.need_order is False:
+        if self.need_order is None:
             self.check_subscribe()
 
         if self.need_order is True:
