@@ -323,6 +323,9 @@ class ShengFeng(Task):
         resp = sess.get(info_url, proxies=proxies)
         content = resp.text
 
+        if '<title>登录' in content:
+            raise RuntimeError('缓存失效！')
+
         expire = False
         delta_days = None
         match = re.search(r'VIP.+?(\d+-\d+-\d+)\s*到期', content, re.S)
