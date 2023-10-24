@@ -186,7 +186,7 @@ def get_money(i, ck):
 # 微信推送模块
 def check_status(key, link, index):
     with R:
-        time.sleep(2)
+        time.sleep(5)
 
     result = ss.get(
         f'https://wxpusher.zjiecode.com/demo/send/custom/{key}?content=检测文章-{name}%0A请在{tsleep}秒内完成验证!%0A%3Cbody+onload%3D%22window.location.href%3D%27{quote(link)}%27%22%3E').json()
