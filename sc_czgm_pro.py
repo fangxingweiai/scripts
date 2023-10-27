@@ -15,7 +15,7 @@
 #   2.青龙变量设置LID变量名,值为授权软件的LID
 # 软件版本
 """
-cron: 3 0-10 * * *
+cron: 3 0-8 * * *
 new Env('钢镚阅读');
 """
 name = "充值购买(钢镚)"
@@ -36,7 +36,7 @@ import requests
 R = threading.Lock()
 
 # 阅读等待时间
-tsleep = 10
+tsleep = 40
 # 提现限制(元)
 Limit = 2
 
@@ -46,7 +46,7 @@ domain = 'http://2496831.marskkqh7ij0j.jpsl.u1jcnc75wwbyk.cloud'
 # 检测文章列表(如有未收录可自行添加)
 check_list = [
     'MzkyMzI5NjgxMA==', 'MzkzMzI5NjQ3MA==', 'Mzg5NTU4MzEyNQ==', 'Mzg3NzY5Nzg0NQ==', 'MzU5OTgxNjg1Mg==',
-    'Mzg4OTY5Njg4Mw==', 'MzI1ODcwNTgzNA==', 'Mzg2NDY5NzU0Mw==', 'Mzg4NjY5NzE4NQ=='
+    'Mzg4OTY5Njg4Mw==', 'MzI1ODcwNTgzNA==', 'Mzg2NDY5NzU0Mw==', 'Mzg4NjY5NzE4NQ==', 'MzkzMzI5Njc0Nw=='
 ]
 
 
@@ -185,7 +185,7 @@ class Task:
     # 微信推送模块
     def check_status(self, link):
         with R:
-            time.sleep(5)
+            time.sleep(10)
 
         result = self.ss.get(
             f'https://wxpusher.zjiecode.com/demo/send/custom/{self.ck["ts"]}?content=检测文章-{name}%0A请在{tsleep}秒内完成验证!%0A%3Cbody+onload%3D%22window.location.href%3D%27{quote(link)}%27%22%3E').json()
