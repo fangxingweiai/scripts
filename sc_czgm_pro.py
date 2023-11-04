@@ -36,7 +36,7 @@ import requests
 R = threading.Lock()
 
 # 阅读等待时间
-tsleep = 40
+tsleep = 20
 # 提现限制(元)
 Limit = 2
 
@@ -123,7 +123,8 @@ class Task:
                     if biz in check_list:
                         print(f"账号【{self.index}】阅读检测文章-准备推送微信验证!")
                         # 过检测
-                        self.check_status(response["data"]["link"])
+                        with R:
+                            self.check_status(response["data"]["link"])
 
                         response = self.ss.post(f"{domain}/read/finish", headers=headers, data=get_sign()).json()
                         print(
@@ -184,9 +185,6 @@ class Task:
 
     # 微信推送模块
     def check_status(self, link):
-        with R:
-            time.sleep(10)
-
         result = self.ss.get(
             f'https://wxpusher.zjiecode.com/demo/send/custom/{self.ck["ts"]}?content=检测文章-{name}%0A请在{tsleep}秒内完成验证!%0A%3Cbody+onload%3D%22window.location.href%3D%27{quote(link)}%27%22%3E').json()
         print(f"账号【{self.index}】微信消息推送: {result['msg']},等待{tsleep}s完成验证!")
