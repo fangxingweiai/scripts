@@ -28,95 +28,72 @@ def gen_config(proxies: List[Dict]):
         "dns": {
             "servers": [
                 {
-                    "tag": "dns-fakeip",
-                    "address": "fakeip"
+                    "tag": "google",
+                    "address": "tls://8.8.8.8"
                 },
                 {
-                    "tag": "dns-proxy",
-                    "address": "https://doh.dns.sb/dns-query",
-                    "address_resolver": "dns-local",
-                    "address_strategy": "ipv4_only",
-                    # "strategy": "ipv4_only",
-                    "detour": "direct"
-                },
-                {
-                    "tag": "dns-proxy-server",
-                    "address": "https://pdns.itxe.net/dns-query",
-                    "address_resolver": "dns-local",
-                    "address_strategy": "ipv4_only",
-                    "detour": "direct"
-                },
-                {
-                    "tag": "dns-local",
+                    "tag": "local",
                     "address": "223.5.5.5",
                     "detour": "direct"
                 },
                 {
-                    "tag": "dns-block",
-                    "address": "rcode://success"
+                    "tag": "remote",
+                    "address": "fakeip"
                 }
             ],
             "rules": [
                 {
-                    "query_type": [
-                        "HTTPS",
-                        "SVCB"
-                    ],
-                    "server": "dns-block",
-                    "disable_cache": True
-                },
-                {
-                    "domain_suffix": [
-                        ".arpa.",
-                        ".arpa"
-                    ],
-                    "server": "dns-block",
-                    "disable_cache": True
-                },
-                {
-                    "geosite": ["cn", "private"],
-                    "server": "dns-local"
-                },
-                {
                     "outbound": "any",
-                    "server": "dns-proxy-server"
+                    "server": "local"
+                },
+                {
+                    "type": "logical",
+                    "mode": "and",
+                    "rules": [
+                        {
+                            "rule_set": "geosite-geolocation-!cn",
+                            "invert": True
+                        },
+                        {
+                            "rule_set": [
+                                "geosite-cn",
+                                "geosite-category-companies@cn"
+                            ]
+                        }
+                    ],
+                    "server": "local"
                 },
                 {
                     "query_type": [
                         "A",
                         "AAAA"
                     ],
-                    "server": "dns-fakeip"
+                    "server": "remote"
                 }
             ],
-            "final": "dns-proxy",
-            "strategy": "ipv4_only",
             "fakeip": {
                 "enabled": True,
                 "inet4_range": "198.18.0.0/15",
                 "inet6_range": "fc00::/18"
-            }
+            },
+            "strategy": "ipv4_only"
         },
         "inbounds": [
             {
                 "type": "mixed",
                 "tag": "mixed-in",
                 "listen": "::",
-                "listen_port": 7890,
-                "sniff": True
+                "listen_port": 7890
             },
             {
                 "type": "tun",
-                "tag": "tun-in",
-                "interface_name": "tun0",
                 "mtu": 9000,
                 "inet4_address": "172.19.0.1/30",
                 "inet6_address": "fd08::1/126",
                 "auto_route": True,
                 "strict_route": True,
                 "stack": "mixed",
-                "sniff": True,
-                "sniff_override_destination": True
+                "sniff": True
             }
         ],
         "outbounds": [
@@ -149,28 +126,68 @@ def gen_config(proxies: List[Dict]):
             }
         ],
         "route": {
-            "geoip": {
-                "download_url": "https://yanyu.ltd/https://github.com/soffchen/sing-geoip/releases/latest/download/geoip-cn.db",
-                "download_detour": "direct"
-            },
-            "geosite": {
-                "download_url": "https://yanyu.ltd/https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geosite.db",
-                "download_detour": "direct"
-            },
+            "rule_set": [
+                {
+                    "type": "remote",
+                    "tag": "geoip-cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+                    "download_detour": "direct"
+                },
+                {
+                    "type": "remote",
+                    "tag": "geosite-cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+                    "download_detour": "direct"
+                },
+                {
+                    "type": "remote",
+                    "tag": "geosite-geolocation-!cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+                    "download_detour": "direct"
+                },
+                {
+                    "type": "remote",
+                    "tag": "geosite-category-companies@cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-companies@cn.srs",
+                    "download_detour": "direct"
+                }
+            ],
             "rules": [
                 {
                     "protocol": "dns",
                     "outbound": "dns-out"
                 },
                 {
+                    "ip_is_private": True,
+                    "outbound": "direct"
+                },
+                {
+                    "protocol": "stun",
+                    "outbound": "block"
+                },
+                {
                     "protocol": "quic",
                     "outbound": "block"
                 },
                 {
-                    "geosite": ["cn", "private"],
-                    "geoip": [
-                        "cn",
-                        "private"
+                    "type": "logical",
+                    "mode": "and",
+                    "rules": [
+                        {
+                            "rule_set": "geosite-geolocation-!cn",
+                            "invert": True
+                        },
+                        {
+                            "rule_set": [
+                                "geoip-cn",
+                                "geosite-cn",
+                                "geosite-category-companies@cn"
+                            ]
+                        }
                     ],
                     "outbound": "direct"
                 }
@@ -185,10 +202,14 @@ def gen_config(proxies: List[Dict]):
                 # "external_ui": "web",
                 # "external_ui_download_url": "https://yanyu.ltd/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
                 # "external_ui_download_detour": "direct",
-                "default_mode": "rule",
-                "store_selected": True,
-                "store_fakeip": True,
-                "cache_file": "cache.db"
+                "secret": "",
+                "default_mode": "rule"
+            },
+            "cache_file": {
+                "enabled": True,
+                "path": "cache.db",
+                "cache_id": "sfa",
+                "store_fakeip": True
             }
         }
     }

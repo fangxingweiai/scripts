@@ -28,40 +28,21 @@ def gen_config(proxies: List[Dict]):
         "dns": {
             "servers": [
                 {
-                    "tag": "dns-proxy",
-                    "address": "https://doh.dns.sb/dns-query",
-                    "address_resolver": "dns-local",
-                    "address_strategy": "ipv4_only",
-                    "detour": "direct"
+                    "tag": "google",
+                    "address": "tls://8.8.8.8"
                 },
                 {
-                    "tag": "dns-proxy-server",
-                    "address": "https://pdns.itxe.net/dns-query",
-                    "address_resolver": "dns-local",
-                    "address_strategy": "ipv4_only",
-                    "detour": "direct"
-                },
-                {
-                    "tag": "dns-local",
+                    "tag": "local",
                     "address": "223.5.5.5",
                     "detour": "direct"
-                },
-                {
-                    "tag": "dns-block",
-                    "address": "rcode://success"
                 }
             ],
             "rules": [
                 {
-                    "outbound": "direct",
-                    "server": "dns-local"
-                },
-                {
                     "outbound": "any",
-                    "server": "dns-proxy-server"
+                    "server": "local"
                 }
             ],
-            "final": "dns-proxy",
             "strategy": "ipv4_only"
         },
         "inbounds": [
@@ -102,14 +83,36 @@ def gen_config(proxies: List[Dict]):
             }
         ],
         "route": {
-            "geoip": {
-                "download_url": "https://yanyu.ltd/https://github.com/soffchen/sing-geoip/releases/latest/download/geoip-cn.db",
-                "download_detour": "direct"
-            },
-            "geosite": {
-                "download_url": "https://yanyu.ltd/https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geosite.db",
-                "download_detour": "direct"
-            },
+            "rule_set": [
+                {
+                    "type": "remote",
+                    "tag": "geoip-cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+                    "download_detour": "direct"
+                },
+                {
+                    "type": "remote",
+                    "tag": "geosite-cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+                    "download_detour": "direct"
+                },
+                {
+                    "type": "remote",
+                    "tag": "geosite-geolocation-!cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+                    "download_detour": "direct"
+                },
+                {
+                    "type": "remote",
+                    "tag": "geosite-category-companies@cn",
+                    "format": "binary",
+                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-companies@cn.srs",
+                    "download_detour": "direct"
+                }
+            ],
             "rules": [
                 {
                     "port": 53,
@@ -121,13 +124,24 @@ def gen_config(proxies: List[Dict]):
                     "outbound": "block"
                 },
                 {
-                    "geosite": [
-                        "cn",
-                        "private"
-                    ],
-                    "geoip": [
-                        "cn",
-                        "private"
+                    "ip_is_private": True,
+                    "outbound": "direct"
+                },
+                {
+                    "type": "logical",
+                    "mode": "and",
+                    "rules": [
+                        {
+                            "rule_set": "geosite-geolocation-!cn",
+                            "invert": True
+                        },
+                        {
+                            "rule_set": [
+                                "geoip-cn",
+                                "geosite-cn",
+                                "geosite-category-companies@cn"
+                            ]
+                        }
                     ],
                     "outbound": "direct"
                 }
@@ -138,13 +152,17 @@ def gen_config(proxies: List[Dict]):
         "experimental": {
             "clash_api": {
                 "external_controller": "127.0.0.1:9090",
-                "external_ui": "web",
+                "external_ui": "UI",
                 "external_ui_download_url": "https://yanyu.ltd/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
                 "external_ui_download_detour": "direct",
+                "secret": "",
                 "default_mode": "rule",
-                "store_selected": True,
-                # "store_fakeip": True,
-                "cache_file": "cache.db"
+            },
+            "cache_file": {
+                "enabled": True,
+                "path": "cache.db",
+                "cache_id": "windows",
+                # "store_fakeip": True
             }
         }
     }
