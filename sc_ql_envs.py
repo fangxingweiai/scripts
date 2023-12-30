@@ -221,8 +221,8 @@ def main():
     if hour == 22 and minute == 30:
         enable_jd_proxy()
 
-    if hour in [6, 10, 13, 16, 20, 23] and minute == 25:
-        transform_jd_try_ck()
+    #if hour in [6, 10, 13, 16, 20, 23] and minute == 25:
+    #    transform_jd_try_ck()
 
 
 if __name__ == "__main__":
