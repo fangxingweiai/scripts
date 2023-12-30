@@ -216,7 +216,7 @@ def main():
     if hour == 23 and minute == 55:
         exchange_telecom_ck()
 
-    if hour == 2 and minute == 30:
+    if hour == 3 and minute == 30:
         disable_jd_proxy()
     if hour == 22 and minute == 30:
         enable_jd_proxy()
