@@ -181,13 +181,23 @@ def exchange_telecom_ck():
 def disable_jd_proxy():
     init_ql()
     # 112 JD_PROXY_OPEN
-    ql.disable_env_by_id(112)
+    envs = ql.get_envs()
+    for env in envs:
+        env_name = env['name']
+        if env_name == 'JD_PROXY_OPEN':
+            env_id = env['id']
+            ql.disable_env_by_id(env_id)
 
 
 def enable_jd_proxy():
     init_ql()
     # 112 JD_PROXY_OPEN
-    ql.enable_env_by_id(112)
+    envs = ql.get_envs()
+    for env in envs:
+        env_name = env['name']
+        if env_name == 'JD_PROXY_OPEN':
+            env_id = env['id']
+            ql.enable_env_by_id(env_id)
 
 
 # 转换jd试用ck
@@ -221,7 +231,7 @@ def main():
     if hour == 22 and minute == 30:
         enable_jd_proxy()
 
-    #if hour in [6, 10, 13, 16, 20, 23] and minute == 25:
+    # if hour in [6, 10, 13, 16, 20, 23] and minute == 25:
     #    transform_jd_try_ck()
 
 
