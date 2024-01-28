@@ -1,7 +1,7 @@
 import json
 from typing import List, Dict
 
-from ..singbox import http, socks, ss, ssr, trojan, vless, vmess, hysteria
+from ..singbox import http, socks, ss, ssr, trojan, vless, vmess, hysteria, hysteria2
 
 converter_map = {
     'http': http.convert,
@@ -12,7 +12,8 @@ converter_map = {
     'trojan': trojan.convert,
     'vless': vless.convert,
     'vmess': vmess.convert,
-    'hysteria': hysteria.convert
+    'hysteria': hysteria.convert,
+    'hysteria2': hysteria2.convert,
 }
 
 

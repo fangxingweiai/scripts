@@ -2,7 +2,7 @@ from typing import List, Dict
 
 import yaml
 
-from . import vless, hysteria
+from . import vless, hysteria, hysteria2
 from ..clash import http, snell, socks, ss, ssr, trojan, vmess
 from ...helper import check_and_rename
 
@@ -16,7 +16,8 @@ converter_map = {
     'trojan': trojan.convert,
     'vless': vless.convert,
     'vmess': vmess.convert,
-    'hysteria': hysteria.convert
+    'hysteria': hysteria.convert,
+    'hysteria2': hysteria2.convert,
 }
 
 

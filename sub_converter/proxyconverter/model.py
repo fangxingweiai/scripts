@@ -8,7 +8,7 @@ class NodeInfo(object):
         'plugin', 'ssr_protocol', 'ssr_obfs', 'ssr_obfs_param', 'ssr_protocol_param', 'psk', 'version', 'username',
         'max_early_data', 'early_data_header_name', 'udp_over_tcp', 'plugin_param_mode', 'mux', 'congestion', 'seed',
         'xtls', 'up', 'down', 'hy_protocol', 'hy_ports', 'hy_obfs', 'disable_mtu_discovery', 'fingerprint',
-        'public_key', 'short_id'
+        'public_key', 'short_id', 'hy2_obfs', 'obfs_password'
     )
 
     def __init__(self):
@@ -95,6 +95,10 @@ class NodeInfo(object):
         self.hy_obfs = None
         self.disable_mtu_discovery = None
         self.fingerprint = None  # clashmeta:vless
+
+        # hysteria
+        self.hy2_obfs = None
+        self.obfs_password = None
 
         self.alpn = None  # torjan:alpn(逗号分割) v2rayN:vless 多个以，分割
         self.udp_over_tcp = None

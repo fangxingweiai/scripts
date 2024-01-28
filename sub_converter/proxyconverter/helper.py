@@ -137,7 +137,7 @@ def is_valid_node(node: NodeInfo):
 def request(url, method='GET', data=None, json=None, headers=None, allow_redirects=True, retry=2, text_return=True):
     if headers is None:
         # headers = {'User-Agent': 'ClashforWindows/0.20.30'}
-        headers = {'User-Agent': 'clash-verge/v1.3.6'}
+        headers = {'User-Agent': 'clash-verge/v1.4.10'}
 
     proxies = None
     http_proxy = os.getenv('http_proxy')

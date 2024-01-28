@@ -1,4 +1,4 @@
-from . import ss, ssr, socks, http, snell, vmess, vless, trojan,hysteria
+from . import ss, ssr, socks, http, snell, vmess, vless, trojan, hysteria, hysteria2
 
 parser_map = {
     'ss': ss.parse,
@@ -10,5 +10,6 @@ parser_map = {
     'vmess': vmess.parse,
     'vless': vless.parse,
     'trojan': trojan.parse,
-    'hysteria': hysteria.parse
+    'hysteria': hysteria.parse,
+    'hysteria2': hysteria2.parse,
 }
