@@ -15,7 +15,7 @@ if __name__ == '__main__':
     logger.remove()
 
     logger.add(sys.stdout, level='DEBUG', format='{message}')
-    os.environ['http_proxy'] = os.environ['ProxyUrl']
+    os.environ['http_proxy'] = os.environ.get('proxy_url', '')
     os.environ['deta_key'] = os.environ['deta_key']
 
     sub_converter.index.task()
