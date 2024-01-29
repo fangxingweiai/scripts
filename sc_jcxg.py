@@ -383,7 +383,7 @@ def main():
             order_form_plan_id = config.get('order_form_plan_id')
 
             try:
-                if domain == 'xn--iiq540h.com':
+                if domain == 'xn--r93a47m.com':
                     ShengFeng(email, password, domain, order_form_period, order_form_plan_id).run()
                 else:
                     Task(email, password, domain, order_form_period, order_form_plan_id).run()
