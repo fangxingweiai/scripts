@@ -89,28 +89,28 @@ def gen_config(proxies: List[Dict]):
                     "type": "remote",
                     "tag": "geoip-cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs",
                     "download_detour": "direct"
                 },
                 {
                     "type": "remote",
                     "tag": "geosite-cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs",
                     "download_detour": "direct"
                 },
                 {
                     "type": "remote",
                     "tag": "geosite-geolocation-!cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs",
                     "download_detour": "direct"
                 },
                 {
                     "type": "remote",
                     "tag": "geosite-category-companies@cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-companies@cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-category-companies@cn.srs",
                     "download_detour": "direct"
                 }
             ],
@@ -154,7 +154,7 @@ def gen_config(proxies: List[Dict]):
             "clash_api": {
                 "external_controller": "127.0.0.1:9090",
                 "external_ui": "UI",
-                "external_ui_download_url": "https://yanyu.ltd/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
+                "external_ui_download_url": "https://cdn.jsdelivr.net/gh/MetaCubeX/Yacd-meta@archive/gh-pages.zip",
                 "external_ui_download_detour": "direct",
                 "secret": "",
                 "default_mode": "rule",

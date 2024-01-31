@@ -137,14 +137,14 @@ def gen_config(proxies: List[Dict]):
         "proxy": {
             "type": "http",
             "behavior": "domain",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt",
+            "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt",
             "path": "./ruleset/proxy.yaml",
             "interval": 86400
         },
         "direct": {
             "type": "http",
             "behavior": "domain",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt",
+            "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt",
             "path": "./ruleset/direct.yaml",
             "interval": 86400
         },
@@ -172,14 +172,14 @@ def gen_config(proxies: List[Dict]):
         "telegramcidr": {
             "type": "http",
             "behavior": "ipcidr",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt",
+            "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt",
             "path": "./ruleset/telegramcidr.yaml",
             "interval": 86400
         },
         "private": {
             "type": "http",
             "behavior": "domain",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt",
+            "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt",
             "path": "./ruleset/private.yaml",
             "interval": 86400
         }

@@ -132,28 +132,28 @@ def gen_config(proxies: List[Dict]):
                     "type": "remote",
                     "tag": "geoip-cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs",
                     "download_detour": "direct"
                 },
                 {
                     "type": "remote",
                     "tag": "geosite-cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs",
                     "download_detour": "direct"
                 },
                 {
                     "type": "remote",
                     "tag": "geosite-geolocation-!cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs",
                     "download_detour": "direct"
                 },
                 {
                     "type": "remote",
                     "tag": "geosite-category-companies@cn",
                     "format": "binary",
-                    "url": "https://yanyu.ltd/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-companies@cn.srs",
+                    "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-category-companies@cn.srs",
                     "download_detour": "direct"
                 }
             ],

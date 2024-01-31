@@ -39,9 +39,9 @@ def gen_config(proxies: List[Dict]):
         },
         "geodata-mode": True,
         "geox-url": {
-            "geoip": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/geoip/release/geoip.dat",
-            "geosite": "https://yanyu.ltd/https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geosite.dat",
-            "mmdb": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb"
+            "geoip": "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/geoip.dat",
+            "geosite": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@releases/latest/download/geosite.dat",
+            "mmdb": "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb"
         },
         "sniffer": {
             "enable": True,
