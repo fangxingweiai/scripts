@@ -55,14 +55,14 @@ def gen_config(proxies: List[Tuple]):
     sub_data.append('[Rule]')
     sub_data.append('DOMAIN-SUFFIX, deta.dev, DIRECT')
     sub_data.append(
-        'DOMAIN-SET, https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/private.txt, DIRECT')
+        'DOMAIN-SET, https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/private.txt, DIRECT')
     # sub_data.append('DOMAIN-SET, https://cdn.jsdelivr.net/gh/Loyalsoldier/surge-rules@release/reject.txt, REJECT')
     sub_data.append(
-        'DOMAIN-SET, https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/proxy.txt, Proxy, force-remote-dns')
+        'DOMAIN-SET, https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/proxy.txt, Proxy, force-remote-dns')
     sub_data.append(
-        'DOMAIN-SET, https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/direct.txt, DIRECT')
+        'DOMAIN-SET, https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/direct.txt, DIRECT')
     sub_data.append(
-        'RULE-SET, https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/ruleset/telegramcidr.txt, Proxy')
+        'RULE-SET, https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/ruleset/telegramcidr.txt, Proxy')
     # sub_data.append('RULE-SET, https://cdn.jsdelivr.net/gh/Loyalsoldier/surge-rules@release/cncidr.txt, DIRECT')
     sub_data.append('GEOIP, CN, DIRECT')
     sub_data.append('FINAL, Proxy')

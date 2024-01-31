@@ -137,49 +137,49 @@ def gen_config(proxies: List[Dict]):
         "proxy": {
             "type": "http",
             "behavior": "domain",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt",
+            "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt",
             "path": "./ruleset/proxy.yaml",
             "interval": 86400
         },
         "direct": {
             "type": "http",
             "behavior": "domain",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt",
+            "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt",
             "path": "./ruleset/direct.yaml",
             "interval": 86400
         },
         # "applications": {
         #     "type": "http",
         #     "behavior": "classical",
-        #     "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/applications.txt",
+        #     "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/applications.txt",
         #     "path": "./ruleset/applications.yaml",
         #     "interval": 86400
         # },
         # "lancidr": {
         #     "type": "http",
         #     "behavior": "ipcidr",
-        #     "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt",
+        #     "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/lancidr.txt",
         #     "path": "./ruleset/lancidr.yaml",
         #     "interval": 86400
         # },
         # "cncidr": {
         #     "type": "http",
         #     "behavior": "ipcidr",
-        #     "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt",
+        #     "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/cncidr.txt",
         #     "path": "./ruleset/cncidr.yaml",
         #     "interval": 86400
         # },
         "telegramcidr": {
             "type": "http",
             "behavior": "ipcidr",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt",
+            "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/telegramcidr.txt",
             "path": "./ruleset/telegramcidr.yaml",
             "interval": 86400
         },
         "private": {
             "type": "http",
             "behavior": "domain",
-            "url": "https://yanyu.ltd/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt",
+            "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/private.txt",
             "path": "./ruleset/private.yaml",
             "interval": 86400
         }
