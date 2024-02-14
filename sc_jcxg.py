@@ -15,6 +15,7 @@ import re
 from datetime import datetime
 
 import requests
+import yaml
 from requests.utils import dict_from_cookiejar, cookiejar_from_dict
 
 from py_dep.log import logger
@@ -22,7 +23,8 @@ from py_dep.log import logger
 requests.packages.urllib3.disable_warnings()
 
 ######################################################
-configs_file = 'sc_jcxg.json'
+configs_file = 'sc_jcxg.yaml'
+cache_file = 'sc_jcxg.cache'
 cache = {}
 new_cache = {}
 
@@ -239,8 +241,10 @@ class Task(object):
 
 class ShengFeng(Task):
 
-    def __init__(self, email, password, domain, order_form_period, order_form_plan_id):
+    def __init__(self, email, password, domain, order_form_period, order_form_plan_id, min_days, min_flow):
         super().__init__(email, password, domain, order_form_period, order_form_plan_id)
+        self.min_days = min_days
+        self.min_flow = min_flow
 
     def login(self):
         global sess
@@ -333,8 +337,8 @@ class ShengFeng(Task):
             str_date = match.group(1)
             expired_time = datetime.strptime(str_date, '%Y-%m-%d')
             delta_time = expired_time - datetime.now()
-            delta_days = delta_time.days
-            if delta_days < 5:
+            delta_days = delta_time.days + 1
+            if delta_days < self.min_days:
                 expire = True
 
         traffic = False
@@ -344,9 +348,17 @@ class ShengFeng(Task):
         if match:
             a, b = match.group(2), match.group(3)
 
-            if (b == 'G' and float(a) < 10) or b == 'M':
-                traffic = True
+            # if (b == 'G' and float(a) < 10) or b == 'M':
+            #     traffic = True
 
+            match2 = re.search(r'(\d+|\d+\.\d+)([MG])', self.min_flow)
+            flow_num = match2.group(1)
+            flow_unit = match2.group(2)
+
+            if b == flow_unit and float(a) < float(flow_num):
+                traffic = True
+            if b == 'M' and flow_unit == 'G':
+                traffic = True
         logger.info(f'剩余天数：{delta_days}，流量剩余：{a + b if a and b else None}')
 
         self.need_order = False
@@ -365,34 +377,38 @@ def main():
     resolve_proxy()
 
     global cache
-    data = None
+    configs = []
     if os.path.exists(configs_file) and os.path.isfile(configs_file):
         with open(configs_file) as f:
-            data = json.load(f)
+            # data = json.load(f)
+            configs = yaml.load(f, Loader=yaml.FullLoader)
     else:
         logger.warning(f'请在脚本同目录下添加文件名为{configs_file}的机场配置文件')
 
-    if data:
-        configs = data.get('configs', [])
-        cache = data.get('cache', {})
-        for config in configs:
-            email = config.get('email')
-            password = config.get('password')
-            domain = config.get('domain')
-            order_form_period = config.get('order_form_period')
-            order_form_plan_id = config.get('order_form_plan_id')
+    if os.path.exists(cache_file) and os.path.isfile(cache_file):
+        with open(cache_file) as f:
+            cache = json.load(f)
 
-            try:
-                if domain == 'xn--r93a47m.com':
-                    ShengFeng(email, password, domain, order_form_period, order_form_plan_id).run()
-                else:
-                    Task(email, password, domain, order_form_period, order_form_plan_id).run()
-            except Exception as e:
-                logger.error(f'出错：{e}')
+    for config in configs:
+        email = config.get('email')
+        password = config.get('password')
+        domain = config.get('domain')
+        jc_type = config.get('type')
+        order_form_period = config.get('order_form_period')
+        order_form_plan_id = config.get('order_form_plan_id')
+        min_days = config.get('min_days')
+        min_flow = config.get('min_flow')
 
-        data['cache'] = new_cache
-        with open(configs_file, 'w') as f:
-            f.write(json.dumps(data, indent=2))
+        try:
+            if jc_type == 2:
+                ShengFeng(email, password, domain, order_form_period, order_form_plan_id, min_days, min_flow).run()
+            else:
+                Task(email, password, domain, order_form_period, order_form_plan_id).run()
+        except Exception as e:
+            logger.error(f'出错：{e}')
+
+    with open(cache_file, 'w') as f:
+        f.write(json.dumps(new_cache, indent=2))
 
 
 if __name__ == '__main__':
