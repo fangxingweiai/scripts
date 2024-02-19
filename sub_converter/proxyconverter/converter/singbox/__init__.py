@@ -30,11 +30,11 @@ def gen_config(proxies: List[Dict]):
             "servers": [
                 {
                     "tag": "google",
-                    "address": "tls://8.8.8.8"
+                    "address": "https://1.1.1.1/dns-query"
                 },
                 {
                     "tag": "local",
-                    "address": "223.5.5.5",
+                    "address": "https://223.5.5.5/dns-query",
                     "detour": "direct"
                 }
             ],

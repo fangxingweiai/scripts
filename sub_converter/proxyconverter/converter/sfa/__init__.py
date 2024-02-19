@@ -21,7 +21,7 @@ def gen_config(proxies: List[Dict]):
     proxy_name_list = [proxy['tag'] for proxy in proxies]
     config = {
         "log": {
-            "disabled": False,
+            "disabled": True,
             "level": "debug",
             "output": "",
             "timestamp": True
@@ -30,17 +30,17 @@ def gen_config(proxies: List[Dict]):
             "servers": [
                 {
                     "tag": "google",
-                    "address": "tls://8.8.8.8"
+                    "address": "https://1.1.1.1/dns-query"
                 },
                 {
                     "tag": "local",
-                    "address": "223.5.5.5",
+                    "address": "https://223.5.5.5/dns-query",
                     "detour": "direct"
                 },
-                {
-                    "tag": "remote",
-                    "address": "fakeip"
-                }
+                # {
+                #     "tag": "remote",
+                #     "address": "fakeip"
+                # }
             ],
             "rules": [
                 {
@@ -64,19 +64,19 @@ def gen_config(proxies: List[Dict]):
                     ],
                     "server": "local"
                 },
-                {
-                    "query_type": [
-                        "A",
-                        "AAAA"
-                    ],
-                    "server": "remote"
-                }
+                # {
+                #     "query_type": [
+                #         "A",
+                #         "AAAA"
+                #     ],
+                #     "server": "remote"
+                # }
             ],
-            "fakeip": {
-                "enabled": True,
-                "inet4_range": "198.18.0.0/15",
-                "inet6_range": "fc00::/18"
-            },
+            # "fakeip": {
+            #     "enabled": True,
+            #     "inet4_range": "198.18.0.0/15",
+            #     "inet6_range": "fc00::/18"
+            # },
             "strategy": "ipv4_only"
         },
         "inbounds": [
@@ -90,11 +90,12 @@ def gen_config(proxies: List[Dict]):
                 "type": "tun",
                 "mtu": 9000,
                 "inet4_address": "172.19.0.1/30",
-                "inet6_address": "fd08::1/126",
+                # "inet6_address": "fd08::1/126",
                 "auto_route": True,
                 "strict_route": True,
                 "stack": "mixed",
-                "sniff": True
+                "sniff": True,
+                "sniff_override_destination": True,
             }
         ],
         "outbounds": [
@@ -195,7 +196,7 @@ def gen_config(proxies: List[Dict]):
             ],
             "final": "Select",
             "auto_detect_interface": True,
-            "override_android_vpn": True
+            # "override_android_vpn": True
         },
         "experimental": {
             "clash_api": {
@@ -210,7 +211,7 @@ def gen_config(proxies: List[Dict]):
                 "enabled": True,
                 "path": "cache.db",
                 "cache_id": "sfa",
-                "store_fakeip": True
+                # "store_fakeip": True
             }
         }
     }
