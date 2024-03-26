@@ -332,7 +332,7 @@ class ShengFeng(Task):
 
         expire = False
         delta_days = None
-        match = re.search(r'VIP.+?(\d+-\d+-\d+)\s*到期', content, re.S)
+        match = re.search(r'普通会员.+?(\d+-\d+-\d+)\s*到期', content, re.S)
         if match:
             str_date = match.group(1)
             expired_time = datetime.strptime(str_date, '%Y-%m-%d')
