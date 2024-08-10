@@ -5,7 +5,7 @@
 cron: */30 * * * *
 new Env('机场续购');
 
-脚本同目录下添加sc_jcxg.json文件配置机场信息
+脚本同目录下添加sc_jcxg.yaml文件配置机场信息
 如果需要代理则设置环境变量scripts_http_proxy，例如 scripts_http_proxy = 127.0.0.1:1098
 """
 
@@ -57,12 +57,14 @@ def resolve_proxy():
 
 
 class Task(object):
-    def __init__(self, email, password, domain, order_form_period, order_form_plan_id):
+    def __init__(self, email, password, domain, order_form_period, order_form_plan_id, min_days, min_flow):
         self.email = email
         self.password = password
         self.domain = domain
         self.order_form_period = order_form_period
         self.order_form_plan_id = order_form_plan_id
+        self.min_days = min_days
+        self.min_flow = min_flow
 
         self.need_order = None
 
@@ -209,18 +211,29 @@ class Task(object):
 
         total = info_data['data']['transfer_enable']
         used = info_data['data']['d']
-        used_percent = used / total
+        # used_percent = used / total
+
+        match2 = re.search(r'(\d+|\d+\.\d+)([MG])', self.min_flow)
+        flow_num = match2.group(1)
+        flow_unit = match2.group(2)
+        if flow_unit == 'G':
+            used = used and used / 1024 / 1024 / 1024
+            total = total and total / 1024 / 1024 / 1024
+        else:
+            used = used and used / 1024 / 1024
+            total = total and total / 1024 / 1024
 
         expired_at = info_data['data']['expired_at']
         delta_days = None
         if expired_at:
             expired_time = datetime.fromtimestamp(expired_at)
             delta_time = expired_time - datetime.now()
-            delta_days = delta_time.days
-        logger.info(f'剩余天数：{delta_days}，已使用流量：{round(used_percent * 100, 1)}%')
+            delta_days = delta_time.days + 1
+
+        logger.info(f'剩余天数：{delta_days}，剩余流量：{total - used}{flow_unit}')
 
         self.need_order = False
-        if used_percent > 0.7 or (delta_days and delta_days < 2):
+        if (used and total and total - used <= float(flow_num)) or (delta_days and delta_days < self.min_days):
             self.need_order = True
 
     def run_task(self):
@@ -242,9 +255,7 @@ class Task(object):
 class ShengFeng(Task):
 
     def __init__(self, email, password, domain, order_form_period, order_form_plan_id, min_days, min_flow):
-        super().__init__(email, password, domain, order_form_period, order_form_plan_id)
-        self.min_days = min_days
-        self.min_flow = min_flow
+        super().__init__(email, password, domain, order_form_period, order_form_plan_id, min_days, min_flow)
 
     def login(self):
         global sess
@@ -403,7 +414,7 @@ def main():
             if jc_type == 2:
                 ShengFeng(email, password, domain, order_form_period, order_form_plan_id, min_days, min_flow).run()
             else:
-                Task(email, password, domain, order_form_period, order_form_plan_id).run()
+                Task(email, password, domain, order_form_period, order_form_plan_id, min_days, min_flow).run()
         except Exception as e:
             logger.error(f'出错：{e}')
 

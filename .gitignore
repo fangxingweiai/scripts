@@ -160,3 +160,6 @@ cython_debug/
 .idea/
 /sc_jcxg.json
 /sc_ml.py
+/sc_jcxg.cache
+/sc_jcxg.yaml
+/test.py
