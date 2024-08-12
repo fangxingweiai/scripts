@@ -223,13 +223,13 @@ def main():
     hour = now.hour
     minute = now.minute
 
-    if hour == 23 and minute == 55:
-        exchange_telecom_ck()
+    #if hour == 23 and minute == 55:
+    #    exchange_telecom_ck()
 
-    if hour == 3 and minute == 30:
-        disable_jd_proxy()
-    if hour == 22 and minute == 30:
-        enable_jd_proxy()
+    #if hour == 3 and minute == 30:
+    #    disable_jd_proxy()
+    #if hour == 22 and minute == 30:
+    #    enable_jd_proxy()
 
     # if hour in [6, 10, 13, 16, 20, 23] and minute == 25:
     #    transform_jd_try_ck()
