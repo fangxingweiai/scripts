@@ -30,7 +30,7 @@ def gen_config(proxies: List[Dict]):
             "servers": [
                 {
                     "tag": "google",
-                    "address": "https://1.1.1.1/dns-query"
+                    "address": "tls://8.8.8.8"
                 },
                 {
                     "tag": "local",
@@ -87,30 +87,26 @@ def gen_config(proxies: List[Dict]):
             "rule_set": [
                 {
                     "type": "remote",
+                    "tag": "geosite-geolocation-cn",
+                    "format": "binary",
+                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-cn.srs",
+                    # "download_detour": "Select"
+                    "download_detour": "direct"
+                },
+                # {
+                #     "type": "remote",
+                #     "tag": "geosite-geolocation-!cn",
+                #     "format": "binary",
+                #     "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+                #     # "download_detour": "Select"
+                #     "download_detour": "direct"
+                # },
+                {
+                    "type": "remote",
                     "tag": "geoip-cn",
                     "format": "binary",
                     "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
-                    "download_detour": "direct"
-                },
-                {
-                    "type": "remote",
-                    "tag": "geosite-cn",
-                    "format": "binary",
-                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
-                    "download_detour": "direct"
-                },
-                {
-                    "type": "remote",
-                    "tag": "geosite-geolocation-!cn",
-                    "format": "binary",
-                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
-                    "download_detour": "direct"
-                },
-                {
-                    "type": "remote",
-                    "tag": "geosite-category-companies@cn",
-                    "format": "binary",
-                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-companies@cn.srs",
+                    # "download_detour": "Select"
                     "download_detour": "direct"
                 }
             ],
@@ -129,20 +125,9 @@ def gen_config(proxies: List[Dict]):
                     "outbound": "direct"
                 },
                 {
-                    "type": "logical",
-                    "mode": "and",
-                    "rules": [
-                        {
-                            "rule_set": "geosite-geolocation-!cn",
-                            "invert": True
-                        },
-                        {
-                            "rule_set": [
-                                "geoip-cn",
-                                "geosite-cn",
-                                "geosite-category-companies@cn"
-                            ]
-                        }
+                    "rule_set": [
+                        "geoip-cn",
+                        "geosite-geolocation-cn"
                     ],
                     "outbound": "direct"
                 }

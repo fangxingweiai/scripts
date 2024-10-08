@@ -30,7 +30,7 @@ def gen_config(proxies: List[Dict]):
             "servers": [
                 {
                     "tag": "google",
-                    "address": "https://1.1.1.1/dns-query"
+                    "address": "tls://8.8.8.8"
                 },
                 {
                     "tag": "local",
@@ -48,6 +48,10 @@ def gen_config(proxies: List[Dict]):
                     "server": "local"
                 },
                 {
+                    "rule_set": "geosite-geolocation-cn",
+                    "server": "local"
+                },
+                {
                     "type": "logical",
                     "mode": "and",
                     "rules": [
@@ -56,13 +60,11 @@ def gen_config(proxies: List[Dict]):
                             "invert": True
                         },
                         {
-                            "rule_set": [
-                                "geosite-cn",
-                                "geosite-category-companies@cn"
-                            ]
+                            "rule_set": "geoip-cn"
                         }
                     ],
-                    "server": "local"
+                    "server": "google",
+                    "client_subnet": "114.114.114.114/24"  # Any China client IP address
                 },
                 # {
                 #     "query_type": [
@@ -131,16 +133,10 @@ def gen_config(proxies: List[Dict]):
             "rule_set": [
                 {
                     "type": "remote",
-                    "tag": "geoip-cn",
+                    "tag": "geosite-geolocation-cn",
                     "format": "binary",
-                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
-                    "download_detour": "direct"
-                },
-                {
-                    "type": "remote",
-                    "tag": "geosite-cn",
-                    "format": "binary",
-                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-cn.srs",
+                    # "download_detour": "Select"
                     "download_detour": "direct"
                 },
                 {
@@ -148,13 +144,15 @@ def gen_config(proxies: List[Dict]):
                     "tag": "geosite-geolocation-!cn",
                     "format": "binary",
                     "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs",
+                    # "download_detour": "Select"
                     "download_detour": "direct"
                 },
                 {
                     "type": "remote",
-                    "tag": "geosite-category-companies@cn",
+                    "tag": "geoip-cn",
                     "format": "binary",
-                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-companies@cn.srs",
+                    "url": "https://mirror.ghproxy.com/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+                    # "download_detour": "Select"
                     "download_detour": "direct"
                 }
             ],
@@ -176,20 +174,9 @@ def gen_config(proxies: List[Dict]):
                     "outbound": "block"
                 },
                 {
-                    "type": "logical",
-                    "mode": "and",
-                    "rules": [
-                        {
-                            "rule_set": "geosite-geolocation-!cn",
-                            "invert": True
-                        },
-                        {
-                            "rule_set": [
-                                "geoip-cn",
-                                "geosite-cn",
-                                "geosite-category-companies@cn"
-                            ]
-                        }
+                    "rule_set": [
+                        "geoip-cn",
+                        "geosite-geolocation-cn"
                     ],
                     "outbound": "direct"
                 }
@@ -204,12 +191,13 @@ def gen_config(proxies: List[Dict]):
                 # "external_ui_download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
                 # "external_ui_download_detour": "direct",
                 "secret": "",
-                "default_mode": "rule"
+                "default_mode": "Enhanced"
             },
             "cache_file": {
                 "enabled": True,
                 "path": "cache.db",
                 "cache_id": "sfi",
+                "store_rdrc": True
                 # "store_fakeip": True
             }
         }
